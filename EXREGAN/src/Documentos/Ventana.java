@@ -2,10 +2,16 @@ package Documentos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.security.PublicKey;
 
 public class Ventana extends JFrame{
 
     public JPanel panel;
+    public  JTextArea area1,area2;
+    public File archivo;
 
     public Ventana(){
 
@@ -38,7 +44,7 @@ public class Ventana extends JFrame{
 
     private void AreaTexto1(){
 
-        JTextArea area1 = new JTextArea();
+        area1 = new JTextArea();
         area1.setBounds(250,20,600,300);
         area1.setEditable(true);
         panel.add(area1);
@@ -46,7 +52,7 @@ public class Ventana extends JFrame{
     }
     private void AreaTexto2(){
 
-        JTextArea area2 = new JTextArea();
+        area2 = new JTextArea();
         area2.setBounds(250,350,600,250);
         area2.setEditable(false);
         panel.add(area2);
@@ -76,9 +82,131 @@ public class Ventana extends JFrame{
         panel.add(Boton4);
         panel.add(Boton5);
         panel.add(Boton6);
+
+        ActionListener Accion1 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AccionB1();
+            }
+        };
+
+        Boton1.addActionListener(Accion1);
+
+        ActionListener Accion2 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AccionB2();
+            }
+        };
+
+        Boton2.addActionListener(Accion2);
+
+        ActionListener Accion3 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AccionB3();
+            }
+        };
+
+        Boton3.addActionListener(Accion3);
+
+        ActionListener Accion4 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AccionB4();
+            }
+        };
+
+        Boton3.addActionListener(Accion4);
+
+
+
+
     }
 
     private void Label(){}
+
+    public void AccionB1 (){
+
+        JFileChooser filec = new JFileChooser();
+        filec.showOpenDialog(null);
+        archivo = filec.getSelectedFile();
+        System.out.println(archivo);
+        String texto = "";
+        String Linea = "";
+        try {
+
+            FileReader Fr = new FileReader(archivo);
+            BufferedReader Br = new BufferedReader(Fr);
+
+            while ((((Linea = Br.readLine()) != null))){
+                texto +=Linea+"\n";
+            }
+            JOptionPane.showMessageDialog(null,"ARCHIVO CARGADO");
+
+        }catch (Exception evnt ){
+
+
+        }
+
+        System.out.println(texto);
+        area1.setText(texto);
+        area2.setText("CONTENIDO OBTENIDO CARGADO PARA EDITAR");
+
+    }
+
+    public void AccionB2(){
+
+        area1.setText("");
+        area2.setText("LIMPIEZA DE EDITOR DE TEXTO COMPLETA");
+
+    }
+
+    public void  AccionB3(){
+
+        String Contenido = area1.getText();
+        System.out.println(Contenido);
+        area2.setText("");
+
+        if (archivo != null){
+
+            try {
+
+                FileWriter Fw = new FileWriter(archivo);
+                Fw.write(Contenido);
+                Fw.close();
+            } catch (IOException e) {
+
+            }
+        }else{
+
+            area2.setText("NO EXISTE UN ARCHIVO CARGADO, GUARDE COMO PARA GUARDAR NUEVO ARCHIVO");
+        }
+
+
+
+
+    }
+
+    public void  AccionB4(){
+
+        String Contenido = area1.getText();
+        System.out.println(Contenido);
+        area2.setText("");
+
+        try {
+
+            FileWriter Fw = new FileWriter("NUEVO_ARCHIVO.olc");
+            Fw.write(Contenido);
+            Fw.close();
+        } catch (IOException e) {
+
+        }
+
+
+    }
+
+
 
 
 }
