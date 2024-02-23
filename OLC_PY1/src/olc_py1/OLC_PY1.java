@@ -5,10 +5,9 @@ public class OLC_PY1 {
 
     
     public static void main(String[] args) {
-        System.out.println("Hola mundo");
-        Windows W = new Windows();
+        Analizador  i = new Analizador();
         
-        W.setVisible(true); //VENTANA INTERFAZ
+        i.setVisible(true);
         
     }
     
